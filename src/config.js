@@ -5,7 +5,10 @@ module.exports = {
   // oauthAppID: "Dks28Xk6zIbYoWbO",
   // DEV OAUTH APP ID
   oauthAppID: "zPRYFrWVWNO44xMP",
-  webMapID: "6c4e0d073ff94d4cb979e29128a43eb7",
+  // // PROD WEB MAP
+  // webMapID: "6c4e0d073ff94d4cb979e29128a43eb7",
+  // DEMO WEBMAP
+  webMapID: "6ed8dcaa51b04f60b8409385694ac331",
 
   FIELD_NAME: {
     huc10LayerHucID: "HUC10",
@@ -148,7 +151,7 @@ module.exports = {
     status0: [200, 200, 200, 0.5],
     status1: [166, 219, 160, 0.5],
     status2: [194, 165, 207, 0.5],
-    actualModeledExtent: "#ffd400"
+    actualModeledExtent: "#E6E600"
   },
 
   fireflyStyle: {

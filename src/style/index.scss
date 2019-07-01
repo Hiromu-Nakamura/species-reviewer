@@ -1,5 +1,6 @@
 @import url("https://js.arcgis.com/4.10/esri/css/main.css");
 @import "~calcite-web/dist/css/calcite-web.min.css";
+@import "./colors.scss";
 
 $control-panel-width: 300px;
 
@@ -55,7 +56,7 @@ body {
 }
 
 .legend-icon[data-index="0"] {
-  background-color: #ffd400;
+  background-color: $predictedHabitatFill;
 }
 
 .legend-icon[data-index="1"] {
