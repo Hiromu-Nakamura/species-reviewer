@@ -91,13 +91,17 @@ module.exports = {
       // "137976": "https://services.arcgis.com/jIL9msH9OI208GCb/arcgis/rest/services/Isotria_medeloides_Boundary/FeatureServer/0",
       // "941975": "https://services.arcgis.com/jIL9msH9OI208GCb/arcgis/rest/services/Lithobates_kauffeldi_Boundary/FeatureServer/0",
       line:
-        "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Predicted_Habitat_Line/FeatureServer/0",
+        // "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Predicted_Habitat_Line/FeatureServer/0",
+        "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_PredictedHabitatLine/FeatureServer/0",
       polygon:
-        "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Predicted_Habitat_Polygon/FeatureServer/0",
+        // "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Predicted_Habitat_Polygon/FeatureServer/0",
+        "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_PredictedHabitatPolygon/FeatureServer/0",
       line2:
-        "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Predicted_Habitat_Line_Part_2/FeatureServer/0",
+        // "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Predicted_Habitat_Line_Part_2/FeatureServer/0",
+        "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_Predicted_Habitat_Line_Part_2/FeatureServer/0",
       polygon2:
-        "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Predicted_Habitat_Polygon_Part_2/FeatureServer/0"
+        // "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Predicted_Habitat_Polygon_Part_2/FeatureServer/0"
+        "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_Predicted_Habitat_Polygon_Part_2/FeatureServer/0"
     },
     pdfLookup:
       "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/PDF_Lookup/FeatureServer/0",
