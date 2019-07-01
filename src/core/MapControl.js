@@ -21,6 +21,7 @@ const MapControl = function({
 
   let mapView = null;
   let hucsLayer = null;
+  let hucsLayerStrokeForFireflyStyle = null;
   let hucsByStatusGraphicLayer = null;
   let hucPreviewGraphicLayer = null;
   // let actualModelBoundaryLayer = null;
@@ -197,7 +198,26 @@ const MapControl = function({
           }
         });
 
-        mapView.map.add(hucsLayer);
+        hucsLayerStrokeForFireflyStyle = new FeatureLayer({
+          url: config.URL.WatershedBoundaryDataset_HUC10,
+          opacity: 0.9,
+          listMode: "hide",
+          legendEnabled: false,
+          renderer: {
+            type: "simple", // autocasts as new SimpleRenderer()
+            symbol: {
+              type: "simple-fill", // autocasts as new SimpleFillSymbol()
+              color: [0, 0, 0, 0],
+              outline: {
+                // autocasts as new SimpleLineSymbol()
+                color: [0, 0, 0, 0],
+                width: "0"
+              }
+            }
+          }
+        });
+
+        mapView.map.addMany([hucsLayer, hucsLayerStrokeForFireflyStyle]);
       });
   };
 
@@ -559,7 +579,11 @@ const MapControl = function({
   const highlightHucs = data => {
     // cleanPreviewHucGraphic();
     clearAllGraphics();
-    hucsLayer.renderer = getUniqueValueRenderer(data);
+    const hucLayerRender = getUniqueValueRenderer(data);
+    const hucLayerRenderForStroke = getUniqueValueRendererForHucsStroke(data);
+
+    hucsLayer.renderer = hucLayerRender;
+    hucsLayerStrokeForFireflyStyle.renderer = hucLayerRenderForStroke;
   };
 
   const getUniqueValueRenderer = data => {
@@ -568,18 +592,18 @@ const MapControl = function({
       color: [0, 0, 0, 0],
       outline: {
         // autocasts as new SimpleLineSymbol()
-        color: config.COLOR.hucBorder,
+        color: config.COLOR.hucsOutsideOfModelingExtentStroke,
         width: "1px"
       }
     };
 
     const symbol = {
       type: "simple-fill", // autocasts as new SimpleFillSymbol()
-      color: config.COLOR.hucFill,
+      color: config.COLOR.modelingExtentFill,
       outline: {
         // autocasts as new SimpleLineSymbol()
-        color: config.COLOR.hucBorderIsModeled,
-        width: "2px"
+        color: config.COLOR.modelingExtentStroke1,
+        width: "7px"
       }
     };
 
@@ -594,6 +618,44 @@ const MapControl = function({
     //         width: "1px"
     //     },
     // };
+
+    const uniqueValueInfos = data.map(d => {
+      return {
+        value: d[config.FIELD_NAME.speciesDistribution.hucID],
+        symbol: symbol
+      };
+    });
+
+    const renderer = {
+      type: "unique-value", // autocasts as new UniqueValueRenderer()
+      field: config.FIELD_NAME.huc10LayerHucID,
+      defaultSymbol: defaultSymbol, //{ type: "none" },  // autocasts as new SimpleFillSymbol()
+      uniqueValueInfos: uniqueValueInfos
+    };
+
+    return renderer;
+  };
+
+  const getUniqueValueRendererForHucsStroke = data => {
+    const defaultSymbol = {
+      type: "simple-fill", // autocasts as new SimpleFillSymbol()
+      color: [0, 0, 0, 0],
+      outline: {
+        // autocasts as new SimpleLineSymbol()
+        color: [0, 0, 0, 0],
+        width: 0
+      }
+    };
+
+    const symbol = {
+      type: "simple-fill", // autocasts as new SimpleFillSymbol()
+      color: [0, 0, 0, 0],
+      outline: {
+        // autocasts as new SimpleLineSymbol()
+        color: config.COLOR.modelingExtentStroke1,
+        width: "4px"
+      }
+    };
 
     const uniqueValueInfos = data.map(d => {
       return {
