@@ -164,11 +164,11 @@ const MapControl = function({
         });
 
         // mapView.map.addMany([usaProtectedAreas, nlcdLandCover, forestType, wetLand]);
-        mapView.map.add(usaProtectedAreas, 0);
-        mapView.map.add(nlcdLandCover, 0);
-        mapView.map.add(forestType, 0);
-        mapView.map.add(wetLand, 0);
-        mapView.map.add(huc6, 0);
+        mapView.map.add(usaProtectedAreas, 2);
+        mapView.map.add(nlcdLandCover, 2);
+        mapView.map.add(forestType, 2);
+        mapView.map.add(wetLand, 2);
+        mapView.map.add(huc6, 2);
       })
       .catch(err => {
         console.error(err);

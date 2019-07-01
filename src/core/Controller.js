@@ -740,6 +740,12 @@ export default function Controller(props = {}) {
     oauthManager.signOut();
   };
 
+  const deleteAllFeedbacks = async()=>{
+    const response = await apiManager.deleteAllFeedbacks();
+    const message = response.success ? 'Successfully deleted all comments from both Overall and Detailed tables, please refresh the app': 'failed to delete all comments';
+    alert(message);
+  }
+
   return {
     init,
     dataModel,
@@ -753,7 +759,8 @@ export default function Controller(props = {}) {
     getFeedbacksByUserForReviewMode,
     renderListOfHucsWithFeedbacks,
     getFeedbacksByHucForReviewMode,
-    signOut
+    signOut,
+    deleteAllFeedbacks
     // openFeedbackManager
   };
 }

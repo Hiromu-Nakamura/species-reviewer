@@ -145,6 +145,47 @@ export default function ApiManager(props = {}) {
     });
   };
 
+  const deletAllFeatures = (requestUrl)=>{
+
+    const bodyFormData = new FormData();
+    bodyFormData.append("where", '1=1');
+    bodyFormData.append("returnDeleteResults", false);
+    bodyFormData.append("rollbackOnFailure", false);
+    bodyFormData.append("f", "pjson");
+    bodyFormData.append("token", props.oauthManager.getToken());
+
+    return new Promise((resolve, reject) => {
+      axios
+        .post(requestUrl, bodyFormData)
+        .then(function(response) {
+          // console.log(response);
+          resolve(response);
+        })
+        .catch(err => {
+          console.error(err);
+          reject(err);
+        });
+    });
+  };
+
+  const deleteAllFeedbacks = async()=>{
+    try{
+      const requestUrlDEVOverallFeedback = 'https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_OverallFeedback/FeatureServer/0/deleteFeatures';
+      const requestUrlDEVDeatiledlFeedback = 'https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_DetailedFeedback/FeatureServer/0/deleteFeatures';
+  
+      const deleteOverallFeedbacksRes = await deletAllFeatures(requestUrlDEVOverallFeedback);
+      const deleteDetailedFeedbacksRes = await deletAllFeatures(requestUrlDEVDeatiledlFeedback);
+
+      return {
+        success: true
+      };
+    } catch(err){
+      return {
+        success: false
+      };
+    }
+  };
+
   const applyEditToFeatureTable = (requestUrl, feature) => {
     // const requestUrl = config.URL.feedbackTable + '/' + operationName;
 
@@ -366,6 +407,7 @@ export default function ApiManager(props = {}) {
     querySpeciesByUser,
     queryPdfTable,
     getDistinctSpeciesCodeFromModelingExtent,
-    getDataLoadDate
+    getDataLoadDate,
+    deleteAllFeedbacks
   };
 }

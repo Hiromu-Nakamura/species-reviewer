@@ -216,6 +216,9 @@ const initApp = async oauthManager => {
     },
     signOutBtnOnClick: () => {
       controller.signOut();
+    },
+    clearCommentOnClick: ()=>{
+      controller.deleteAllFeedbacks();
     }
   });
 

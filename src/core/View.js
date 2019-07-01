@@ -99,6 +99,12 @@ export default function View(){
 
             element.addEventListener('click', viewProps.signOutBtnOnClick);
         });
+
+        document.querySelectorAll('.js-clear-all-comment').forEach(element=>{
+
+            element.addEventListener('click', viewProps.clearCommentOnClick);
+        });
+        
     };
 
     // const toggleOverallFeeback = (isVisible=false, data={})=>{
