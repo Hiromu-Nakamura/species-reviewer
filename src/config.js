@@ -1,7 +1,10 @@
 "use strict";
 
 module.exports = {
-  oauthAppID: "Dks28Xk6zIbYoWbO",
+  // // PROD OAUTH APP ID
+  // oauthAppID: "Dks28Xk6zIbYoWbO",
+  // DEV OAUTH APP ID
+  oauthAppID: "zPRYFrWVWNO44xMP",
   webMapID: "6c4e0d073ff94d4cb979e29128a43eb7",
 
   FIELD_NAME: {
@@ -78,11 +81,11 @@ module.exports = {
     statusTable:
       "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Status_Code_Lookup/FeatureServer/0",
     feedbackTable:
-      "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Detailed_Feedback/FeatureServer/0",
-    //"https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_DetailedFeedback/FeatureServer/0",
+      // "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Detailed_Feedback/FeatureServer/0",
+    "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_DetailedFeedback/FeatureServer/0",
     overallFeedback:
-      "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Overall_Feedback/FeatureServer/0",
-    //"https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_OverallFeedback/FeatureServer/0",
+      // "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Overall_Feedback/FeatureServer/0",
+    "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_OverallFeedback/FeatureServer/0",
 
     PredictedHabitat: {
       // "137976": "https://services.arcgis.com/jIL9msH9OI208GCb/arcgis/rest/services/Isotria_medeloides_Boundary/FeatureServer/0",
