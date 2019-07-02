@@ -152,7 +152,7 @@ module.exports = {
     status1: [166, 219, 160, 0.5],
     status2: [194, 165, 207, 0.5],
     actualModeledExtent: "#E6E600",
-    modelingExtentFill: [133, 255, 102,.1],
+    modelingExtentFill: [133, 255, 102,.15],
     modelingExtentStroke1: [133, 255, 102,.1],
     modelingExtentStroke2: [255,255,255,.5],
     hucsOutsideOfModelingExtentStroke: [255, 255, 255, 0.15],
