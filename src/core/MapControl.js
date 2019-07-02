@@ -21,7 +21,7 @@ const MapControl = function({
 
   let mapView = null;
   let hucsLayer = null;
-  let hucsLayerStrokeForFireflyStyle = null;
+  // let hucsLayerStrokeForFireflyStyle = null;
   let hucsByStatusGraphicLayer = null;
   let hucPreviewGraphicLayer = null;
   // let actualModelBoundaryLayer = null;
@@ -198,26 +198,26 @@ const MapControl = function({
           }
         });
 
-        hucsLayerStrokeForFireflyStyle = new FeatureLayer({
-          url: config.URL.WatershedBoundaryDataset_HUC10,
-          opacity: 0.9,
-          listMode: "hide",
-          legendEnabled: false,
-          renderer: {
-            type: "simple", // autocasts as new SimpleRenderer()
-            symbol: {
-              type: "simple-fill", // autocasts as new SimpleFillSymbol()
-              color: [0, 0, 0, 0],
-              outline: {
-                // autocasts as new SimpleLineSymbol()
-                color: [0, 0, 0, 0],
-                width: "0"
-              }
-            }
-          }
-        });
+        // hucsLayerStrokeForFireflyStyle = new FeatureLayer({
+        //   url: config.URL.WatershedBoundaryDataset_HUC10,
+        //   opacity: 0.9,
+        //   listMode: "hide",
+        //   legendEnabled: false,
+        //   renderer: {
+        //     type: "simple", // autocasts as new SimpleRenderer()
+        //     symbol: {
+        //       type: "simple-fill", // autocasts as new SimpleFillSymbol()
+        //       color: [0, 0, 0, 0],
+        //       outline: {
+        //         // autocasts as new SimpleLineSymbol()
+        //         color: [0, 0, 0, 0],
+        //         width: "0"
+        //       }
+        //     }
+        //   }
+        // });
 
-        mapView.map.addMany([hucsLayer, hucsLayerStrokeForFireflyStyle]);
+        mapView.map.addMany([hucsLayer]);
       });
   };
 
@@ -580,10 +580,10 @@ const MapControl = function({
     // cleanPreviewHucGraphic();
     clearAllGraphics();
     const hucLayerRender = getUniqueValueRenderer(data);
-    const hucLayerRenderForStroke = getUniqueValueRendererForHucsStroke(data);
+    // const hucLayerRenderForStroke = getUniqueValueRendererForHucsStroke(data);
 
     hucsLayer.renderer = hucLayerRender;
-    hucsLayerStrokeForFireflyStyle.renderer = hucLayerRenderForStroke;
+    // hucsLayerStrokeForFireflyStyle.renderer = hucLayerRenderForStroke;
   };
 
   const getUniqueValueRenderer = data => {
@@ -603,7 +603,7 @@ const MapControl = function({
       outline: {
         // autocasts as new SimpleLineSymbol()
         color: config.COLOR.modelingExtentStroke1,
-        width: "7px"
+        width: "2px"
       }
     };
 
@@ -636,43 +636,43 @@ const MapControl = function({
     return renderer;
   };
 
-  const getUniqueValueRendererForHucsStroke = data => {
-    const defaultSymbol = {
-      type: "simple-fill", // autocasts as new SimpleFillSymbol()
-      color: [0, 0, 0, 0],
-      outline: {
-        // autocasts as new SimpleLineSymbol()
-        color: [0, 0, 0, 0],
-        width: 0
-      }
-    };
+  // const getUniqueValueRendererForHucsStroke = data => {
+  //   const defaultSymbol = {
+  //     type: "simple-fill", // autocasts as new SimpleFillSymbol()
+  //     color: [0, 0, 0, 0],
+  //     outline: {
+  //       // autocasts as new SimpleLineSymbol()
+  //       color: [0, 0, 0, 0],
+  //       width: 0
+  //     }
+  //   };
 
-    const symbol = {
-      type: "simple-fill", // autocasts as new SimpleFillSymbol()
-      color: [0, 0, 0, 0],
-      outline: {
-        // autocasts as new SimpleLineSymbol()
-        color: config.COLOR.modelingExtentStroke1,
-        width: "4px"
-      }
-    };
+  //   const symbol = {
+  //     type: "simple-fill", // autocasts as new SimpleFillSymbol()
+  //     color: [0, 0, 0, 0],
+  //     outline: {
+  //       // autocasts as new SimpleLineSymbol()
+  //       color: config.COLOR.modelingExtentStroke1,
+  //       width: "4px"
+  //     }
+  //   };
 
-    const uniqueValueInfos = data.map(d => {
-      return {
-        value: d[config.FIELD_NAME.speciesDistribution.hucID],
-        symbol: symbol
-      };
-    });
+  //   const uniqueValueInfos = data.map(d => {
+  //     return {
+  //       value: d[config.FIELD_NAME.speciesDistribution.hucID],
+  //       symbol: symbol
+  //     };
+  //   });
 
-    const renderer = {
-      type: "unique-value", // autocasts as new UniqueValueRenderer()
-      field: config.FIELD_NAME.huc10LayerHucID,
-      defaultSymbol: defaultSymbol, //{ type: "none" },  // autocasts as new SimpleFillSymbol()
-      uniqueValueInfos: uniqueValueInfos
-    };
+  //   const renderer = {
+  //     type: "unique-value", // autocasts as new UniqueValueRenderer()
+  //     field: config.FIELD_NAME.huc10LayerHucID,
+  //     defaultSymbol: defaultSymbol, //{ type: "none" },  // autocasts as new SimpleFillSymbol()
+  //     uniqueValueInfos: uniqueValueInfos
+  //   };
 
-    return renderer;
-  };
+  //   return renderer;
+  // };
 
   const initPredictedHabitatLayers = mapView => {
     // console.log(url);
