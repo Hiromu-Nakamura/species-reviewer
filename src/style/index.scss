@@ -63,13 +63,23 @@ body {
   background-color: $modelingExtentFill;
 }
 
+// .legend-icon[data-index="2"] {
+//   background: url("../static/Hatch_BlackAlt.png") center center no-repeat;
+//   background-size: 90%;
+// }
+
+// .legend-icon[data-index="3"] {
+//   background: url("../static/Hatch_Red.png") center center no-repeat;
+//   background-size: 90%;
+// }
+
 .legend-icon[data-index="2"] {
-  background: url("../static/Hatch_BlackAlt.png") center center no-repeat;
+  background: url("../static/WhiteDemo.png") center center no-repeat;
   background-size: 90%;
 }
 
 .legend-icon[data-index="3"] {
-  background: url("../static/Hatch_Red.png") center center no-repeat;
+  background: url("../static/RedDemo.png") center center no-repeat;
   background-size: 90%;
 }
 

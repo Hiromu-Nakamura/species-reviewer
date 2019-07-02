@@ -2,8 +2,10 @@
 
 import config from "../config";
 import * as esriLoader from "esri-loader";
-import hatchRed from "../static/Hatch_RedAlt.png";
-import hatchBlack from "../static/Hatch_BlackAlt.png";
+// import hatchRed from "../static/Hatch_RedAlt.png";
+// import hatchBlack from "../static/Hatch_BlackAlt.png";
+import hatchRed from "../static/RedDemo.png";
+import hatchWhite from "../static/WhiteDemo.png";
 
 const Promise = require("es6-promise").Promise;
 
@@ -461,7 +463,7 @@ const MapControl = function({
     const symbols = {
       1: {
         type: "picture-fill", // autocasts as new PictureFillSymbol()
-        url: hatchBlack, //"https://static.arcgis.com/images/Symbols/Shapes/BlackStarLargeB.png",
+        url: hatchWhite, //"https://static.arcgis.com/images/Symbols/Shapes/BlackStarLargeB.png",
         width: "24px",
         height: "24px",
         outline: {
