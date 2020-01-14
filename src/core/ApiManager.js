@@ -241,6 +241,7 @@ export default function ApiManager(props = {}) {
           where: "1=1",
           outFields: config.FIELD_NAME.speciesDistribution.speciesCode,
           returnDistinctValues: true,
+          orderByFields: config.FIELD_NAME.speciesDistribution.speciesCode,
           f: "json",
           token: props.oauthManager.getToken()
         },
