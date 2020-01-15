@@ -8,6 +8,7 @@ import View from "./core/View";
 import MapControl from "./core/MapControl";
 import OAuthManager from "./core/OauthManager";
 import CsvLoader from "./core/CsvLoader";
+import CsvDataSyncTool from "./core/CsvDataSyncTool";
 
 import PolyfillForIE from './utils/PolyfillForIE';
 
@@ -233,12 +234,21 @@ const initApp = async oauthManager => {
     }
   });
 
+  const csvDataSyncTool = new CsvDataSyncTool({
+    token: oauthManager.getToken(),
+    orgId: oauthManager.getPoralUser().orgId,
+    customHostUrl: oauthManager.getCustomHostUrl(),
+    username: oauthManager.getUserID()
+  });
+
   const csvLoader = new CsvLoader({
     targetDomElementId: config.DOM_ID.mapViewContainer,
     onLoadHandler: csvData => {
       if (csvData.features && csvData.features.length) {
         // console.log('csv data deatures', csvData.features);
         mapControl.addCsvLayer(csvData.features);
+
+        csvDataSyncTool.saveCsvData(csvData.features);
       }
     }
   });

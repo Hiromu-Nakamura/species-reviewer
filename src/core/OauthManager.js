@@ -15,6 +15,7 @@ const OAuthManager = function(oauth_appid){
     let poralUser = null;
     let info = null;
     let esriId = null;
+    let portalInstance = null;
     
     const signIn = ()=>{
         esriId.getCredential(info.portalUrl + "/sharing").then((res)=>{
@@ -52,6 +53,7 @@ const OAuthManager = function(oauth_appid){
                 Portal
             ])=>{
                 const portal = new Portal();
+                portalInstance = portal;
     
                 // Setting authMode to immediate signs the user in once loaded
                 portal.authMode = "immediate";
@@ -127,6 +129,14 @@ const OAuthManager = function(oauth_appid){
         return poralUser;
     }
 
+    const getCustomHostUrl = ()=>{
+        const urlKey = portalInstance.urlKey;
+        const customBaseUrl = portalInstance.customBaseUrl;
+        const customHostUrl = `https://${urlKey}.${customBaseUrl}`;
+
+        return customHostUrl;
+    }
+
     return {
         init,
         signIn,
@@ -135,7 +145,8 @@ const OAuthManager = function(oauth_appid){
         isAnonymous: checkIsAnonymous,
         getUserID,
         getToken,
-        getPoralUser
+        getPoralUser,
+        getCustomHostUrl
     };
 
 };
