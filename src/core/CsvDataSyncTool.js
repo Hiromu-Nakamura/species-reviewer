@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { loadModules } from 'esri-loader';
 
+// TODO: Save into the "DEV-Shared-CSV" folder; generate a unique name for each file
 export default function CsvDataSyncTool({
     token = '',
     orgId = '',
@@ -9,18 +11,10 @@ export default function CsvDataSyncTool({
     let csvData = [];
 
     const saveCsvData = (features=[])=>{
-        csvData = features.map(feature=>{
 
-            feature.geometry = {
-                "x": feature.geometry.x,
-                "y": feature.geometry.y
-            };
+        csvData = features;
 
-            return feature;
-        });
-        console.log('saveCsvData', csvData);
-
-        save({
+        syncCsvData({
             serviceName: 'test-csv-sync-tool',
             features: csvData
         }).then(res=>{
@@ -28,13 +22,9 @@ export default function CsvDataSyncTool({
         })
     };
 
-    const syncCsvData = ()=>{
-
-    };
-
-    const save = ({
+    const syncCsvData = ({
         serviceName = '',
-        templateItemId = '',
+        // templateItemId = '',
         features = [],
         mapExtent = null
     }={})=>{
@@ -54,10 +44,6 @@ export default function CsvDataSyncTool({
             }
     
             try {
-                // // step 0: need to add geometry to features
-                // features = await prepareFeatures(features);
-                // console.log('prepareFeatures', features);
-    
                 // step 1: check if the service name is available or not
                 const isServiceNameAvailableResponse = await isServiceNameAvailable(serviceName, token);
                 console.log('isServiceNameAvailableResponse', isServiceNameAvailableResponse);
@@ -81,7 +67,7 @@ export default function CsvDataSyncTool({
     
                 // step 4: get template item layerInfo
                 // const templateItemLayerInfo = await getTemplateItemInfo(templateItemId);
-                const templateItemLayerInfo = getLayerInfo();
+                const templateItemLayerInfo = getLayerInfo(createServiceResponse.itemId);
                 console.log('templateItemLayerInfo', templateItemLayerInfo);
     
                 // step 5: add to definition
@@ -209,7 +195,7 @@ export default function CsvDataSyncTool({
         });
     };
 
-    const getLayerInfo = ()=>{
+    const getLayerInfo = (serviceItemId='')=>{
         
         const firstRow = csvData[0];
 
@@ -237,6 +223,7 @@ export default function CsvDataSyncTool({
         const layerInfo = {
             "id": 0,
             "type": "Feature Layer",
+            "serviceItemId": serviceItemId,
             "displayField": "",
             "description": "",
             "copyrightText": "",
@@ -291,22 +278,15 @@ export default function CsvDataSyncTool({
             "geometryType": "esriGeometryPoint",
             "minScale": 0,
             "maxScale": 0,
-            "drawingInfo": {
-              "renderer": {
-                "type": "simple",
-                "symbol": {
-                  "angle": 0,
-                  "xoffset": 0,
-                  "yoffset": 0,
-                  "type": "esriPMS",
-                  "url": "cf5ffcfd-6f98-46a5-8d9b-ab1d16030209",
-                  "imageData": "iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1 /AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDkvMjEvMTfORjJUAAAFTElEQVRogd2abXLbNhCGX4CkPli3nbg9QUYHyB38L5OcNvrrm3h8g1ppUlOiIAD9IYJeLXcBytN0xsHMDiCJIvfhu4sv0kAp3nsYY2CMQYwRAGA fTLDz2YwZOpSiZk6AkDcbiOA0YcYI6qqEk8mXjRBjAedAThE6XMJgjsufb4AAqDCTC5IIQQFrrE5INfYCCTBXFxQgNDMspq3tTCT7npgNW9fmAYzXqgAwR23xAxr55SRnAvEotCegEkwExAGwQEqUtuMzQEJGfPDMR4KUNxu4wRkBkSySqj5d9eCeFJ74TtJsQlMzS6kQXDHk9Xss6QMB5HufrLTUJuhBjtHGM4byPnOBzE1NBUk52vWloByIBLAibU9s4k6SRXjvYf9/JkqQfPBCs42BIK2JRgNhEMkc6zNIWn jEDhy5dYk4GP5wdVgzrbKMZh0jlo4WpQpx2mStIbQbvuQHyNxhiY PEjd14CaEi9GIy3uTo5EK6CA3AcjLe5UmKYpWTPqZGAqONLVlOYBMTvLg0HCpAc11RMN0Aag0ZVagYhKUNVSc5LxpXheULzgytBj XhxMcRi2l4Gdr98l5LCi8KsxqMwyxwmSsUhOZGCh plysNmBQIGC4oKcLDSlJkxYwrkwNxyCunDZgc5kIRLawoEFWDw6wHo8rMAdFUk8YZPxznmX8jjJTs14ZWAqGq0LvNQVJ 0G6aK8HHl3qoE8xkYpoUoTClbpiqwsMrwdA8kUCOyPdotDOQxibeMYiKaNMTSRkpZ5YwZglrF6iqhtzxAO8dQjgiRgkiARwhD7AayKgIBymNJzmYJapqjapq0TQtmmYNa5szRnBwbg/nOnhv4T2FSHlDO4Hc/C0bWjllSkBnM2aBqmqxXP6Otr3F7e1vWK8XAID9/oinp2/ouif0PRCCR4wp1LRpjjaj5uONmuxz1JlCWbtE0/yCtv0D79//ibu7G2w259B6eAi4v1/i8dEghBO8P8L7lAvc TkqiKHFyzVQL21jajTNGu/e/Yq7uxt8 FBhtTqf8eamAnCD3a5H3/ NvudJfI3zkyLNa YCTc3aCtZWaNsFNhs7QgDAagVsNhZtu4C1Naytrj5/ppRA3kwpgVy39xSCRwgeXXfEw0PA4fBypsPhnCdddxyPe8Xella0HMmdjE8hXtoxnuDcHrvdd9zfLwHwZP8Hu913OLdHjHxtwdcZVwElkNKd0OY/l6u8EHo494yu wuPjxFfv/Zi9 vcM0LoIS YpDV6UamaEeb2nWTn6VQixgred8M44dD335QBsUOMR/Z/DYr7ISkTc4rMAUjTiZepuPdACAHeH HcM QpSg AGl3aloBURXJKlCDo vxl7hTj2Wnvc5PGHsDhlTATZWho5UAoBAfQJoClaXwCOBDjQNkNB q7FloaRA19jU3/M2dhRUNrL8BoykjhNSpSSnBpMcSVoMfOAUnhRVWRwkxT5AJICy26pDxBn4GC/UeaBJY2H6gyHIaqwnMlG1p0k5g6p21O896N5tA120FSLyaFlrgrD0xDKx1gcLk2Lu050Z2R127QJSBa5xL wm t  UgJ0wLV 1HbpmWxhOYEAJ9pJDbePg/NrG1kT7XDYe43cY6xpi0l1QBpuEETHODjhs/6rGCqsb4fOSneNADgD5DpEnNYXJQuY0CDSQHxJ0XR/W43QbtGSKfCQfhNz54UsjcTgf9L1dGWt oAMTGMl7op3g8TUEAvO0XBmbA5MB4W rxEggHkpxVV4XFVzgyMOm4/2zrRnOyYPNfqpFgCJAElfs8B4RDSZCve82Jw7yVF8/ BQoHPohDgtP1AAAAAElFTkSuQmCC",
-                  "contentType": "image/png",
-                  "width": 18,
-                  "height": 18
-                }
-              },
-              "transparency": 0
+            "extent": {
+                "spatialReference": {
+                    "latestWkid": 3857,
+                    "wkid": 102100
+                },
+                "xmin": -17674910.29041875,
+                "ymin": 2235132.6399845793,
+                "xmax": -3742580.270826809,
+                "ymax": 7127102.450234558
             },
             "allowGeometryUpdates": true,
             "hasAttachments": false,
@@ -371,10 +351,23 @@ export default function CsvDataSyncTool({
     
     };
     
-    const addFeatures = (serviceUrl='', features=[])=>{
+    const addFeatures = async(serviceUrl='', features=[])=>{
+
+        const [webMercatorUtils] = await loadModules(["esri/geometry/support/webMercatorUtils"]);
     
         const requestUrl = serviceUrl + '/0/addFeatures';
         // console.log('addFeatures', JSON.stringify(features));
+
+        features = features.map(feature=>{
+            const webMercatorXy = webMercatorUtils.lngLatToXY(feature.geometry.x, feature.geometry.y);
+
+            feature.geometry = {
+                x: webMercatorXy[0],
+                y: webMercatorXy[1]
+            };
+
+            return feature;
+        });
     
         const bodyFormData = new FormData();
         bodyFormData.append('features', JSON.stringify(features));
