@@ -245,10 +245,12 @@ const initApp = async oauthManager => {
     targetDomElementId: config.DOM_ID.mapViewContainer,
     onLoadHandler: csvData => {
       if (csvData.features && csvData.features.length) {
+
+        csvDataSyncTool.saveCsvData(JSON.parse(JSON.stringify(csvData.features)));
+
         // console.log('csv data deatures', csvData.features);
         mapControl.addCsvLayer(csvData.features);
 
-        csvDataSyncTool.saveCsvData(csvData.features);
       }
     }
   });
