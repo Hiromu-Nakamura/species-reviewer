@@ -104,6 +104,15 @@ export default function View(){
 
             element.addEventListener('click', viewProps.clearCommentOnClick);
         });
+
+        document.querySelectorAll('.js-share-csv-with-natureserve-btn').forEach(element=>{
+            element.addEventListener('click', ()=>{
+                viewProps.shareCsvOnClick();
+                setShareCsvStatus({
+                    isUploading: true
+                });
+            });
+        });
         
     };
 
@@ -161,6 +170,36 @@ export default function View(){
     const switchToReviewModeView = ()=>{
         document.getElementById('openOverallFeedbackBtnDiv').classList.add('hide');
     };
+
+    const toggleShareCsvBtn = (shouldTurnOn=false)=>{
+        const btn = document.getElementById('shareCsvBtn');
+        if(shouldTurnOn){
+            btn.classList.remove('btn-disabled');
+        } else {
+            btn.classList.add('btn-disabled');
+        }
+    }
+
+    const setShareCsvStatus = ({
+        isUploading=false
+    }={})=>{
+
+        const statusMessageElement = document.getElementById('shareCsvStatusMessage');
+        statusMessageElement.innerHTML = isUploading ? 'Uploading Data...' : 'Successfully shared with NatureServe';
+        // const btn = document.getElementById('shareCsvBtn');
+        // const defaultLabel = 'Share with NatureServe';
+
+        if(isUploading){
+            toggleShareCsvBtn(false);
+        } else {
+            toggleShareCsvBtn(true);
+
+            // reset status message after 5 seconds
+            setTimeout(()=>{
+                statusMessageElement.innerHTML = '';
+            }, 5000)
+        }
+    }
 
     const initViewComponentsForReviewMode = ()=>{
 
@@ -237,6 +276,8 @@ export default function View(){
         switchToReviewModeView,
         initViewComponentsForReviewMode,
         openListView,
-        toggleControlPanel
+        toggleControlPanel,
+        toggleShareCsvBtn,
+        setShareCsvStatus
     };
 };

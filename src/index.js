@@ -220,6 +220,19 @@ const initApp = async oauthManager => {
     },
     clearCommentOnClick: ()=>{
       controller.deleteAllFeedbacks();
+    },
+    shareCsvOnClick: async()=>{
+
+      try {
+        const response = await csvDataSyncTool.syncCsvData();
+        console.log('shared csv', response);
+      } catch(err){
+        console.error('failed to share csv', err);
+      }
+      
+      view.setShareCsvStatus({
+        isUploading: false
+      });
     }
   });
 
@@ -250,6 +263,8 @@ const initApp = async oauthManager => {
 
         // console.log('csv data deatures', csvData.features);
         mapControl.addCsvLayer(csvData.features);
+
+        view.toggleShareCsvBtn(true)
 
       }
     }

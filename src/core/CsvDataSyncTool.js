@@ -14,22 +14,30 @@ export default function CsvDataSyncTool({
 
         csvData = features;
 
-        syncCsvData({
-            serviceName: 'test-csv-sync-tool',
-            features: csvData
-        }).then(res=>{
-            console.log(res);
-        })
+        // syncCsvData({
+        //     serviceName: 'test-csv-sync-tool',
+        //     features: csvData
+        // }).then(res=>{
+        //     console.log(res);
+        // })
     };
 
+    // const syncCsvData = async ()=>{
+    //     console.log('calling sync csv data');
+    // };
+
     const syncCsvData = ({
-        serviceName = '',
-        // templateItemId = '',
-        features = [],
-        mapExtent = null
+        // serviceName = '',
+        // // templateItemId = '',
+        // features = [],
+        // mapExtent = null
     }={})=>{
     
-        serviceName = formatServiceName(serviceName);
+        // const serviceName = formatServiceName(serviceName);
+
+        const serviceName = getServiceName();
+
+        const features = csvData;
     
         return new Promise(async(resolve, reject)=>{
     
@@ -71,7 +79,7 @@ export default function CsvDataSyncTool({
                 console.log('templateItemLayerInfo', templateItemLayerInfo);
     
                 // step 5: add to definition
-                const addToDefinitionResponse = await addToDefinition(createServiceResponse.serviceurl, createServiceResponse.name, templateItemLayerInfo, mapExtent)
+                const addToDefinitionResponse = await addToDefinition(createServiceResponse.serviceurl, createServiceResponse.name, templateItemLayerInfo)
                 console.log('addToDefinitionResponse', addToDefinitionResponse);
     
                 // step 6: add features to the newly created feature service
@@ -315,7 +323,7 @@ export default function CsvDataSyncTool({
         return layerInfo;
     };
     
-    const addToDefinition = (serviceUrl='', featureServiceName='', templateItemLayerInfo=null, mapExtent=null)=>{
+    const addToDefinition = (serviceUrl='', featureServiceName='', templateItemLayerInfo=null)=>{
     
         templateItemLayerInfo.name = featureServiceName;
         // templateItemLayerInfo.extent = mapExtent;
@@ -430,6 +438,11 @@ export default function CsvDataSyncTool({
     const formatServiceName = (name='')=>{
         name = name.replace(/\s/g, "_");
         return name;
+    };
+
+    const getServiceName = ()=>{
+        const now = new Date().getTime()
+        return formatServiceName(`Csv_Data_Shared_by_${username}_${now}`);
     };
     
     const getRequestUrl = (name='', itemID='')=>{
