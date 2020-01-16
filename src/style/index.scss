@@ -151,6 +151,8 @@ body {
     // padding: .75rem;
     background: rgba(0, 0, 0, 0.9);
     z-index: 10;
+    max-height: 650px;
+    overflow-y: auto;
 
     .setting-control-item {
       padding: 1rem;
