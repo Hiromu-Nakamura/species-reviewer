@@ -9,6 +9,7 @@ import MapControl from "./core/MapControl";
 import OAuthManager from "./core/OauthManager";
 import CsvLoader from "./core/CsvLoader";
 import CsvDataSyncTool from "./core/CsvDataSyncTool";
+import ImageryLayerControl from './components/ImageryLayerControl';
 
 import PolyfillForIE from './utils/PolyfillForIE';
 
@@ -270,6 +271,15 @@ const initApp = async oauthManager => {
     }
   });
   csvLoader.init();
+
+  const imageryLayerControl = new ImageryLayerControl({
+    containerId: 'thresholdControlDiv',
+    onChangeHandler: (val)=>{
+      console.log('threshold on change', val)
+    }
+  });
+
+  imageryLayerControl.render('ambycing');
 
   // window.appDebugger = {
   //     signOut: oauthManager.signOut
