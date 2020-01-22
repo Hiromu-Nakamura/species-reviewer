@@ -18,6 +18,8 @@ const ImageryLayerControl = ({
     const setThreshold = (val=0)=>{
         threshold = val;
 
+        updateThresholdLableText(threshold);
+
         onChangeHandler(threshold);
     }
 
@@ -32,12 +34,13 @@ const ImageryLayerControl = ({
         // event handlers for slider
         const slider = document.querySelector('.js-adjust-threshold');
 
-        slider.onchange = function(){
-            setThreshold(+this.value);
-        }
+        // slider.onchange = function(){
+        //     setThreshold(+this.value);
+        // }
 
         slider.oninput = function(){
-            updateThresholdLableText(this.value);
+            // updateThresholdLableText(this.value);
+            setThreshold(+this.value)
         }
         
         // reset threshold

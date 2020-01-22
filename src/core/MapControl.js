@@ -10,13 +10,15 @@ import hatchWhite from "../static/WhiteDemo.png";
 const Promise = require("es6-promise").Promise;
 
 const esriLoaderOptions = {
-  url: "https://js.arcgis.com/4.10"
+  // version: '4.14'
+  // url: "https://js.arcgis.com/4.14"
 };
 
 const MapControl = function({
   webMapID = "",
   mapViewContainerID = "",
-  onScaleChange = null
+  onScaleChange = null,
+  onReadyHandler = null
 } = {}) {
   // const webMapID = options.webMapID || null;
   // const mapViewContainerID = options.mapViewContainerID || null;
@@ -345,6 +347,8 @@ const MapControl = function({
     initSearch(mapView);
 
     initLayerList(mapView);
+
+    onReadyHandler(mapView);
   };
 
   const queryHucsLayerByMouseEvent = event => {
@@ -716,9 +720,10 @@ const MapControl = function({
         // console.log(la)
 
         layer.definitionExpression = `cutecode='${speciesCode}'`;
+
+        layer.refresh();
       }
 
-      layer.refresh();
     });
 
     zoomToPredictedHabitatLayer();

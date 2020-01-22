@@ -10,6 +10,7 @@ import OAuthManager from "./core/OauthManager";
 import CsvLoader from "./core/CsvLoader";
 import CsvDataSyncTool from "./core/CsvDataSyncTool";
 import ImageryLayerControl from './components/ImageryLayerControl';
+import ProbabilityLayer from './core/ProbabilityLayer';
 
 import PolyfillForIE from './utils/PolyfillForIE';
 
@@ -37,6 +38,9 @@ const initApp = async oauthManager => {
     onScaleChange: (newScale = 0) => {
       // console.log('newScale', newScale);
       view.legend.render(newScale);
+    },
+    onReadyHandler: (mapView)=>{
+      probabilityLayer.setMapView(mapView);
     }
   });
 
@@ -140,6 +144,8 @@ const initApp = async oauthManager => {
       // console.log(val);
       mapControl.clearAllGraphics();
       controller.setSelectedSpecies(val);
+      imageryLayerControl.render(val);
+      probabilityLayer.init(val);
     }
   });
 
@@ -275,11 +281,11 @@ const initApp = async oauthManager => {
   const imageryLayerControl = new ImageryLayerControl({
     containerId: 'thresholdControlDiv',
     onChangeHandler: (val)=>{
-      console.log('threshold on change', val)
+      probabilityLayer.updateThreshold(val);
     }
   });
 
-  imageryLayerControl.render('ambycing');
+  const probabilityLayer = new ProbabilityLayer();
 
   // window.appDebugger = {
   //     signOut: oauthManager.signOut
