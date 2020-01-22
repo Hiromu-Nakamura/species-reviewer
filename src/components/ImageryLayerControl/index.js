@@ -1,8 +1,12 @@
 import './style.scss';
 import config from './config.json';
 
-const ImageryLayerControl = ({
+import { saveFeature } from './services'
+
+const ProbabilityLayerControl = ({
     containerId = null,
+    userId = null,
+    token = null,
     onChangeHandler = (threshold=0)=>{}
 }={})=>{
 
@@ -10,6 +14,30 @@ const ImageryLayerControl = ({
     let cutecode = '';
 
     const container = document.getElementById(containerId);
+
+    const saveAdjustedProbability = async()=>{
+        const textarea = document.getElementById('thresholdFeedbackTextArea');
+        const Comment = textarea.value;
+        // console.log(feedback, threshold, cutecode, token)
+
+        toggleSaveStatusMessage(true);
+
+        try {
+            const response = await saveFeature({
+                UserID: userId,
+                Cutecode: cutecode,
+                Threshold: threshold.toString(),
+                Comment,
+                token
+            });
+            // console.log(response);
+            toggleSaveStatusMessage(false);
+
+        } catch(err){
+            console.error('failed to save probability threshold', err);
+            toggleSaveStatusMessage(false);
+        }
+    };
 
     const setCutecode = (val='')=>{
         cutecode = val;
@@ -21,13 +49,15 @@ const ImageryLayerControl = ({
         updateThresholdLableText(threshold);
 
         onChangeHandler(threshold);
+
+        toggleSaveBtn();
     }
 
     const reset2defaultThreshold = ()=>{
         const defualThreshold = +config["default-threshold"][cutecode] || 0.5;
         setThreshold(defualThreshold);
         setSliderPosition(defualThreshold);
-        updateThresholdLableText(defualThreshold);
+        // updateThresholdLableText(defualThreshold);
     }
 
     const initEventHandlers = ()=>{
@@ -46,6 +76,10 @@ const ImageryLayerControl = ({
         // reset threshold
         const resetThresholdBtn = document.querySelector('.js-reset-threshold');
         resetThresholdBtn.addEventListener('click', reset2defaultThreshold);
+
+        // save btn
+        const saveBtn = document.querySelector('.js-save-threshold');
+        saveBtn.addEventListener('click', saveAdjustedProbability);
     };
 
     const setSliderPosition = (value=0)=>{
@@ -63,6 +97,33 @@ const ImageryLayerControl = ({
             textElem.innerText = val;
         }
         
+    };
+
+    const toggleSaveStatusMessage = (isSaving=false)=>{
+        const saveBtn = document.querySelector('.save-threshold-btn');
+        const statusMessage = document.querySelector('.save-threshold-status-message');
+
+        if(isSaving){
+            statusMessage.innerText = 'Saving adjusted threshold...';
+
+            statusMessage.classList.remove('hide');
+            saveBtn.classList.add('hide');
+        } else {
+            statusMessage.innerText = 'Successfully saved';
+
+            setTimeout(()=>{
+                statusMessage.classList.add('hide');
+                saveBtn.classList.remove('hide');
+            }, 2000);
+        }
+    }
+
+    const toggleSaveBtn = ()=>{
+        const saveBtn = document.querySelector('.save-threshold-btn');
+
+        if(saveBtn){
+            saveBtn.classList.remove('btn-disabled');
+        }
     }
 
     const render = (cutecode='')=>{
@@ -72,22 +133,30 @@ const ImageryLayerControl = ({
         reset2defaultThreshold();
 
         const componentHtml = `
-            <div class='leader-1'>
-                <form class="calcite-slider">
-                    <label class='trailer-0'>
-                        <span class='font-size--3'>Adjust Probability: <span id='thresholdLabelText'>${threshold}</span></span>
-                        <input class='threshold-slider js-adjust-threshold' type="range" min="0" max="1" value=".5" step=".01" aria-valuemin="0" aria-valuemax="1" aria-valuenow=".5">
-                    </label>
-                </form>
+            <div class='leader-1 probability-layer-control'>
+                <div>
+                    <div class='font-size--3 header-nav'>
+                        <div class='is-flexy'>Adjust Threshold: <span id='thresholdLabelText'>${threshold}</span></div>
+                        <a class='link-light-blue js-reset-threshold'>reset threshold</a>
+                    </div>
+
+                    <form class="calcite-slider">
+                        <label class='trailer-0'>
+                            <input class='threshold-slider js-adjust-threshold' type="range" min="0" max="1" value=".5" step=".01" aria-valuemin="0" aria-valuemax="1" aria-valuenow=".5">
+                        </label>
+                    </form>
+                </div>
 
                 <div>
-                    <label>
-                        <span class="font-size--3">feedback</span>
-                        <input type="textarea" rows="2">
+                    <label class='trailer-half'>
+                        <textarea id='thresholdFeedbackTextArea' type="text" placeholder='please provide your feedback' rows="2"></textarea>
                     </label>
                 </div>
 
-                <div class='js-reset-threshold'>back to default threshold</div>
+                <div class='text-right'>
+                    <a class='js-save-threshold save-threshold-btn btn btn-transparent btn-disabled link-light-blue font-size--2'>Save Adjusted Threshold</a>
+                    <span class='save-threshold-status-message text-light-gray font-size--2'></span>
+                </div>
             </div>
         `;
 
@@ -102,4 +171,4 @@ const ImageryLayerControl = ({
 
 };
 
-export default ImageryLayerControl;
+export default ProbabilityLayerControl;

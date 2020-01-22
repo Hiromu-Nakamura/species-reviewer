@@ -9,7 +9,7 @@ import MapControl from "./core/MapControl";
 import OAuthManager from "./core/OauthManager";
 import CsvLoader from "./core/CsvLoader";
 import CsvDataSyncTool from "./core/CsvDataSyncTool";
-import ImageryLayerControl from './components/ImageryLayerControl';
+import ProbabilityLayerControl from './components/ImageryLayerControl';
 import ProbabilityLayer from './core/ProbabilityLayer';
 
 import PolyfillForIE from './utils/PolyfillForIE';
@@ -144,7 +144,7 @@ const initApp = async oauthManager => {
       // console.log(val);
       mapControl.clearAllGraphics();
       controller.setSelectedSpecies(val);
-      imageryLayerControl.render(val);
+      probabilityLayerControl.render(val);
       probabilityLayer.init(val);
     }
   });
@@ -278,8 +278,10 @@ const initApp = async oauthManager => {
   });
   csvLoader.init();
 
-  const imageryLayerControl = new ImageryLayerControl({
+  const probabilityLayerControl = new ProbabilityLayerControl({
     containerId: 'thresholdControlDiv',
+    userId: oauthManager.getUserID(),
+    token: oauthManager.getToken(),
     onChangeHandler: (val)=>{
       probabilityLayer.updateThreshold(val);
     }

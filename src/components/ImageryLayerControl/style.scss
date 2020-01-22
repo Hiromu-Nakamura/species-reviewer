@@ -1,0 +1,31 @@
+.probability-layer-control{
+
+    padding-top: .75rem;
+    border-top: 1px solid rgba(255,255,255,.15);
+
+    .header-nav {
+        display:flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: stretch;
+        align-items: flex-start;
+
+        .is-flexy {
+            flex-grow: 1;
+            flex-shrink: 0;
+        }
+    }
+
+    .slider-label {
+        margin-bottom: .25rem;
+    }
+
+    a {
+        cursor: pointer;
+    }
+
+    .save-threshold-btn{
+        padding: 0;
+    }
+}

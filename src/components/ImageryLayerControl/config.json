@@ -1,5 +1,8 @@
 {
     "default-threshold": {
         "ambycing": 0.5
+    },
+    "threshold-feature-table": {
+        "url": "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_Probability_Threshold/FeatureServer/0"
     }
 }

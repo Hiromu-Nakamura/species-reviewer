@@ -36,6 +36,11 @@ const ProbabilityLayer = ()=>{
         const mask = pixelBlock.mask;
         // console.log('mask', mask)
 
+        if(!mask){
+            console.error('mask is not available');
+            return;
+        }
+
         const numPixels = pixelBlock.width * pixelBlock.height;
         // console.log('numPixels', numPixels)
 
@@ -60,7 +65,7 @@ const ProbabilityLayer = ()=>{
                 // server exports in either jpg or png format,
                 // format: "jpgpng", 
                 pixelFilter: maskPixels,
-                name: 'Probability Layer'
+                title: 'Probability Layer'
             });
     
             mapView.map.add(pLayer, 1);
