@@ -136,8 +136,8 @@ const ProbabilityLayerControl = ({
             <div class='leader-1 probability-layer-control'>
                 <div>
                     <div class='font-size--3 header-nav'>
-                        <div class='is-flexy'>Adjust Threshold: <span id='thresholdLabelText'>${threshold}</span></div>
-                        <a class='link-light-blue js-reset-threshold'>reset threshold</a>
+                        <div class='is-flexy'>Adjust Prediction Threshold: <span id='thresholdLabelText'>${threshold}</span></div>
+                        <a class='link-light-blue js-reset-threshold'>reset</a>
                     </div>
 
                     <form class="calcite-slider">
