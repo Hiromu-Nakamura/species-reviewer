@@ -61,7 +61,8 @@ const ProbabilityLayer = ()=>{
 
             // using a hard coded URL here for the demp. Need to update this part to get the layer URL by cutecode
             pLayer = new ImageryLayer({
-                url: "https://apl.esri.com/apl22/rest/services/ambycing_20191023_145321_tif/ImageServer",
+                // url: "https://apl.esri.com/apl22/rest/services/ambycing_20191023_145321_tif/ImageServer",
+                url: 'https://apl.esri.com/apl22/rest/services/graperns_combined_prbbly/ImageServer',
                 // server exports in either jpg or png format,
                 // format: "jpgpng", 
                 pixelFilter: maskPixels,
