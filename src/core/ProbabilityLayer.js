@@ -6,6 +6,18 @@ const ProbabilityLayer = ()=>{
     let threshold = 0; 
     let mapView = null;
 
+    const PlasmaColorRamp = [
+        [66,3,157],
+        [106,0,168],
+        [144,13,164],
+        [177,42,144],
+        [203,71,121],
+        [225,100,98],
+        [242,131,76],
+        [252,166,54],
+        [252,206,37]
+    ];
+
     const setMapView = (view)=>{
         mapView = view;
     }
@@ -66,15 +78,21 @@ const ProbabilityLayer = ()=>{
 
         // Loop through all the pixels in the view
         for (let i = 0; i < numPixels; i++) {
-            // Get the pixel value (the temperature) recorded at the pixel location
+            // Get the pixel value recorded at the pixel location
             let pixelVal = band1[i];
-            // Calculate the red value based on the factor
-            let red = (pixelVal - minValue) * factor;
+
+            // // Calculate the red value based on the factor
+            // let red = (pixelVal - minValue) * factor;
+
+            let groupIndex = Math.floor((pixelVal / 0.1111));
+            groupIndex = groupIndex <= 8 ? groupIndex : 8;
+
+            const color = PlasmaColorRamp[groupIndex];
 
             // Sets a color between blue (coldest) and red (warmest) in each band
-            rBand[i] = red;
-            gBand[i] = 0;
-            bBand[i] = 255 - red;
+            rBand[i] = color[0];
+            gBand[i] = color[1];
+            bBand[i] = color[2];
         }
 
         // Set the new pixel values on the pixelBlock

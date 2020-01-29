@@ -148,14 +148,14 @@ body {
     top: 1.5rem;
     right: 0;
     width: 100%;
-    // padding: .75rem;
+    padding: .75rem 0;
     background: rgba(0, 0, 0, 0.9);
     z-index: 10;
-    max-height: 650px;
+    max-height: 500px;
     overflow-y: auto;
 
     .setting-control-item {
-      padding: 1rem;
+      padding: 0.55rem 1rem;
       position: relative;
     }
 

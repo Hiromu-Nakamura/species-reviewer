@@ -88,32 +88,31 @@
                             </label>
                         </form>
                     </div> -->
+          <div class="setting-control-item">
+            <div class="addPointHeader font-size--2">To Add Your Own Point Data:</div>
+            <div class="addPointText font-size--3 text-light-gray trailer-half">
+              <p class="trailer-0">Drag and drop a csv file from Windows Explorer onto the map. File should be formatted with “latitude” and “longitude” columns.</p>
+            </div>
+
+            <div>
+              <label class="trailer-quarter">
+                <span class="font-size--3">Description:</span>
+                <textarea id='shareCsvDescription' placeholder="Tell NatureServe more about the.csv file you uploaded" disabled></textarea>
+              </label>
+            </div>
+
+            <div>
+              <p id='shareCsvStatusMessage' class="font-size--2 trailer-quarter"></p>
+              <button id='shareCsvBtn' class="js-share-csv-with-natureserve-btn btn btn-fill btn-disabled"> Share with NatureServe </button>
+            </div>
+            
+          </div>
 
           <div class="setting-control-item">
             <div class="trailer-quarter">
               <span class="font-size--2">Reference Layers</span>
             </div>
             <div id="layerListDiv"></div>
-
-            <div>
-              <div class="addPointHeader leader-half font-size--2">To Add Your Own Point Data:</div>
-              <div class="addPointText font-size--3 text-light-gray trailer-half">
-                <p class="trailer-0">Drag and drop a csv file from Windows Explorer onto the map. File should be formatted with “latitude” and “longitude” columns.</p>
-              </div>
-
-              <div>
-                <label class="trailer-quarter">
-                  <span class="font-size--3">Description:</span>
-                  <textarea id='shareCsvDescription' placeholder="Tell NatureServe more about the.csv file you uploaded" disabled></textarea>
-                </label>
-              </div>
-
-              <div>
-                <p id='shareCsvStatusMessage' class="font-size--2 trailer-quarter"></p>
-                <button id='shareCsvBtn' class="js-share-csv-with-natureserve-btn btn btn-fill btn-disabled"> Share with NatureServe </button>
-              </div>
-              
-            </div>
           </div>
 
           <div class="setting-control-item text-right">
