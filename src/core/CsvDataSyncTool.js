@@ -27,10 +27,7 @@ export default function CsvDataSyncTool({
     // };
 
     const syncCsvData = ({
-        // serviceName = '',
-        // // templateItemId = '',
-        // features = [],
-        // mapExtent = null
+        description = ''
     }={})=>{
     
         // const serviceName = formatServiceName(serviceName);
@@ -64,12 +61,15 @@ export default function CsvDataSyncTool({
     
                 // step 2: create feature service
                 // const createServiceResponse = await createService(serviceName, templateItemId);
-                const createServiceResponse = await createService(serviceName);
+                const createServiceResponse = await createService({
+                    serviceName,
+                    description
+                });
                 console.log('createServiceResponse', createServiceResponse);
     
                 // step 3: update item
                 if(createServiceResponse.itemId){
-                    const updateItemResponse = await updateItem(serviceName, createServiceResponse.itemId);
+                    const updateItemResponse = await updateItem(serviceName, createServiceResponse.itemId, description);
                     console.log('updateItemResponse', updateItemResponse);
                 }
     
@@ -126,7 +126,9 @@ export default function CsvDataSyncTool({
         });
     };
     
-    const createService = (serviceName='', templateItemId='')=>{
+    const createService = ({
+        serviceName=''
+    }={})=>{
     
         const requestUrl = getRequestUrl('createService');
     
@@ -175,13 +177,14 @@ export default function CsvDataSyncTool({
     
     };
     
-    const updateItem = (serviceName='', itemID='')=>{
+    const updateItem = (serviceName='', itemID='', description='')=>{
     
         const requestUrl = getRequestUrl('updateItem', itemID);
     
         const bodyFormData = new FormData();
         bodyFormData.append('title', serviceName);
         bodyFormData.append('tags', 'MoBI');
+        bodyFormData.append('description', description);
         // bodyFormData.append('extent', '-128.356,28.626,-60.856,46.568');
         bodyFormData.append('thumbnailURL', 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/export?size=800,532&bboxSR=4326&format=png24&f=image&bbox=-128.356,28.626,-60.856,46.568');
         bodyFormData.append('f', 'json');

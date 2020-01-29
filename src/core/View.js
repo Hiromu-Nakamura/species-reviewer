@@ -107,7 +107,12 @@ export default function View(){
 
         document.querySelectorAll('.js-share-csv-with-natureserve-btn').forEach(element=>{
             element.addEventListener('click', ()=>{
-                viewProps.shareCsvOnClick();
+
+                const textInput = document.getElementById('shareCsvDescription');
+
+                viewProps.shareCsvOnClick({
+                    description: textInput.value
+                });
                 setShareCsvStatus({
                     isUploading: true
                 });
@@ -173,10 +178,13 @@ export default function View(){
 
     const toggleShareCsvBtn = (shouldTurnOn=false)=>{
         const btn = document.getElementById('shareCsvBtn');
+        const textInput = document.getElementById('shareCsvDescription');
         if(shouldTurnOn){
             btn.classList.remove('btn-disabled');
+            textInput.disabled = false;
         } else {
             btn.classList.add('btn-disabled');
+            textInput.disabled = true;
         }
     }
 

@@ -228,10 +228,14 @@ const initApp = async oauthManager => {
     clearCommentOnClick: ()=>{
       controller.deleteAllFeedbacks();
     },
-    shareCsvOnClick: async()=>{
+    shareCsvOnClick: async({
+      description = ''
+    }={})=>{
 
       try {
-        const response = await csvDataSyncTool.syncCsvData();
+        const response = await csvDataSyncTool.syncCsvData({
+          description
+        });
         console.log('shared csv', response);
       } catch(err){
         console.error('failed to share csv', err);
