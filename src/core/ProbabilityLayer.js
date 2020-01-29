@@ -12,6 +12,8 @@ const ProbabilityLayer = ()=>{
 
     const maskPixels = (pixelData)=>{
 
+        // use plasma color ramp
+
         const currentMin = threshold;
         const currentMax = 1;
 
@@ -48,6 +50,36 @@ const ProbabilityLayer = ()=>{
             // console.log(mask[i])
             mask[i] = (band1[i] >= currentMin && band1[i] <= currentMax) ? 1 : 0;
         }
+
+        // Get the min and max values of the data in the current view
+        const minValue = pixelBlock.statistics[0].minValue;
+        const maxValue = pixelBlock.statistics[0].maxValue;
+
+        // Calculate the factor by which to determine the red and blue
+        // values in the colorized version of the layer
+        const factor = 255.0 / (maxValue - minValue);
+
+        // Create empty arrays for each of the RGB bands to set on the pixelBlock
+        const rBand = [];
+        const gBand = [];
+        const bBand = [];
+
+        // Loop through all the pixels in the view
+        for (let i = 0; i < numPixels; i++) {
+            // Get the pixel value (the temperature) recorded at the pixel location
+            let pixelVal = band1[i];
+            // Calculate the red value based on the factor
+            let red = (pixelVal - minValue) * factor;
+
+            // Sets a color between blue (coldest) and red (warmest) in each band
+            rBand[i] = red;
+            gBand[i] = 0;
+            bBand[i] = 255 - red;
+        }
+
+        // Set the new pixel values on the pixelBlock
+        pixelData.pixelBlock.pixels = [rBand, gBand, bBand];
+        pixelData.pixelBlock.pixelType = "U8"; // U8 is used for color
     }
 
     const init = async(cutecode='')=>{
