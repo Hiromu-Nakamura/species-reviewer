@@ -136,8 +136,8 @@ export default function Controller(props = {}) {
       d.attributes.hasDeatiledFeedback = speciesWithDeatiledFeedback[species]
         ? true
         : false;
-      d.attributes.hasDataLoaded =
-        speciesWithDataLoaded.indexOf(species) !== -1 ? true : false;
+      d.attributes.hasDataLoaded = true;
+        // speciesWithDataLoaded.indexOf(species) !== -1 ? true : false;
       return d.attributes;
     });
 

@@ -76,8 +76,8 @@ module.exports = {
       "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Species_Master_Lookup/FeatureServer/0",
 
     speciesDistribution:
-      "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Species_Modeling_Extent/FeatureServer/0",
-
+      // "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Species_Modeling_Extent/FeatureServer/0",
+      "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/DEV_Speices_Modeling_Extent/FeatureServer/0",
     speciesByUser:
       "https://services.arcgis.com/EVsTT4nNRCwmHNyb/arcgis/rest/services/Species_by_Reviewers/FeatureServer/0",
 
